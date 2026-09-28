@@ -34,6 +34,7 @@ export const PRESETS = {
       'Cap City',
       'El Vaquero',
       'Rusty Bucket',
+      'Pizza',
       'Roosters',
       'Harvest',
     ],
