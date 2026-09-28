@@ -46,6 +46,20 @@ export const PRESETS = {
       pizza: ['Papa Johns', 'Brenz'],
     },
   },
+
+  P: {
+    id: 'P',
+    restaurants: [
+      'Joy Food',
+      'Taco Bell',
+      'Pizza',
+      'Wings',
+      'Italian',
+    ],
+    categories: {
+      pizza: ["Katie's", "Jet's", 'Pizza Nerds'],
+    },
+  },
 }
 
 /** The set the app opens with. */
