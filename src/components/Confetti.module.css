@@ -1,0 +1,36 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.piece {
+  position: absolute;
+  top: -14vh;
+  display: block;
+  will-change: transform, opacity;
+  animation-name: fall;
+  animation-timing-function: cubic-bezier(0.3, 0.5, 0.6, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    transform: translate3d(var(--drift), 122vh, 0) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+/* The component bails out before rendering under reduce, but a stray piece
+   from a burst already in flight should stop too. */
+@media (prefers-reduced-motion: reduce) {
+  .piece { animation: none; opacity: 0; }
+}

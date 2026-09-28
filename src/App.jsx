@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import CategoryEditorDialog from './components/CategoryEditorDialog.jsx'
+import Confetti from './components/Confetti.jsx'
 import CategoryWheelDialog from './components/CategoryWheelDialog.jsx'
 import PresetPicker from './components/PresetPicker.jsx'
 import RestaurantList from './components/RestaurantList.jsx'
@@ -133,6 +134,10 @@ export default function App() {
 
   // A category's own pick supersedes the category itself as the answer.
   const announced = categoryPick ?? winner
+
+  // Confetti belongs to a settled answer. Landing on a category settles
+  // nothing — its own wheel throws the confetti when it lands.
+  const settledHere = Boolean(winner) && !winnerCategory
   const via = categoryPick ? winnerCategory : null
   // Offered whenever a category round has been dismissed — including after a
   // pick, so the pizza wheel can be re-rolled without respinning the main one.
@@ -204,6 +209,8 @@ export default function App() {
           )}
         </section>
       </main>
+
+      {settledHere && <Confetti />}
 
       {openCategory && (
         <CategoryWheelDialog

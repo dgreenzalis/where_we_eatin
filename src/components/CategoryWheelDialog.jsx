@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef } from 'react'
 import { useReducedMotion } from '../hooks/useReducedMotion.js'
 import { useWheelSpin } from '../hooks/useWheelSpin.js'
+import Confetti from './Confetti.jsx'
 import Wheel from './Wheel.jsx'
 import styles from './CategoryWheelDialog.module.css'
 
@@ -74,6 +75,8 @@ export default function CategoryWheelDialog({ category, items, onClose, onSettle
       onClose={onClose}
       onClick={handleBackdropClick}
     >
+      {winner && <Confetti />}
+
       <div className={styles.body} ref={bodyRef} tabIndex={-1}>
         <header className={styles.header}>
           <p className={styles.prompt}>{category.prompt}</p>
