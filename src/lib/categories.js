@@ -3,9 +3,9 @@
  * Landing on one settles nothing on its own, so it opens a second wheel to
  * answer the follow-up question.
  *
- * A category's `options` are plain names; they become ordinary restaurants on
- * the second wheel, which is what keeps the nesting one level deep — nothing
- * in here matches a category name, so a sub-wheel can never open a third.
+ * A category is only its identity and presentation here; the options behind
+ * it are seeded per preset in defaults.js and then owned by the app, since
+ * they are editable at runtime.
  */
 
 export const PIZZA = {
@@ -16,12 +16,6 @@ export const PIZZA = {
   question: 'Now whose?',
   /** Picks the pizza-pie face in Wheel rather than the coloured slices. */
   variant: 'pizza',
-  options: [
-    'Harvest Pizza',
-    "Grandad's",
-    "Pizza House",
-    "Mama Mimi's",
-  ],
 }
 
 const CATEGORIES = [PIZZA]
@@ -29,14 +23,6 @@ const CATEGORIES = [PIZZA]
 /** A wheel needs a real choice, so a category's list can't shrink past this. */
 export const MIN_CATEGORY_OPTIONS = 2
 
-/**
- * The starting options for every category, by id. Names rather than
- * restaurants: building those needs createRestaurant, and restaurants.js
- * already imports this module.
- */
-export function defaultCategoryLists() {
-  return Object.fromEntries(CATEGORIES.map((category) => [category.id, category.options]))
-}
 
 /**
  * Categories are matched on name, so a hand-typed "pizza" opens the second

@@ -1,40 +1,43 @@
 import { useCallback, useMemo, useState } from 'react'
 import CategoryEditorDialog from './components/CategoryEditorDialog.jsx'
 import CategoryWheelDialog from './components/CategoryWheelDialog.jsx'
+import PresetToggle from './components/PresetToggle.jsx'
 import RestaurantList from './components/RestaurantList.jsx'
 import Wheel from './components/Wheel.jsx'
 import { useReducedMotion } from './hooks/useReducedMotion.js'
 import { useWheelSpin } from './hooks/useWheelSpin.js'
-import { categoryById, defaultCategoryLists } from './lib/categories.js'
+import { categoryById } from './lib/categories.js'
+import { DEFAULT_PRESET, PRESETS } from './lib/defaults.js'
 import { createRestaurant, MAX_RESTAURANTS, toggleVeto } from './lib/restaurants.js'
 import styles from './App.module.css'
-
-// "Pizza" is a category rather than a place: landing on it opens a second
-// wheel of pizza spots, Harvest Pizza among them.
-const STARTER_NAMES = [
-  'Northstar',
-  'Cap City',
-  'Pizza',
-  'Third & Hollywood',
-  'El Vaquero',
-  'Kitchen Social',
-  'Cook',
-]
 
 const SPIN_MS = 4800
 const REDUCED_SPIN_MS = 400
 
+function buildRestaurants(presetId) {
+  return PRESETS[presetId].restaurants.map(createRestaurant)
+}
+
+function buildCategoryLists(presetId) {
+  return Object.fromEntries(
+    Object.entries(PRESETS[presetId].categories).map(([id, names]) => [
+      id,
+      names.map(createRestaurant),
+    ]),
+  )
+}
+
 export default function App() {
+  // Which set of starting lists the app was built from. Switching rebuilds
+  // both wheels from that preset, discarding whatever is on them now.
+  const [preset, setPreset] = useState(DEFAULT_PRESET)
+
   // Lazy initialiser: the starter list is only built on first render.
-  const [restaurants, setRestaurants] = useState(() => STARTER_NAMES.map(createRestaurant))
+  const [restaurants, setRestaurants] = useState(() => buildRestaurants(DEFAULT_PRESET))
 
   // Each category's own options, owned here so edits outlive the dialog that
   // made them and the wheel that reads them.
-  const [categoryLists, setCategoryLists] = useState(() =>
-    Object.fromEntries(
-      Object.entries(defaultCategoryLists()).map(([id, names]) => [id, names.map(createRestaurant)]),
-    ),
-  )
+  const [categoryLists, setCategoryLists] = useState(() => buildCategoryLists(DEFAULT_PRESET))
   const [editingCategory, setEditingCategory] = useState(null)
 
   // Whatever the category wheel last landed on, plus whether the user has
@@ -98,6 +101,20 @@ export default function App() {
 
   const handleCategoryClose = useCallback(() => setDismissed(true), [])
 
+  // Re-selecting the current preset is a no-op: it would otherwise discard
+  // the list you are looking at for an identical one.
+  const handlePresetChange = useCallback(
+    (next) => {
+      if (next === preset) return
+      setPreset(next)
+      setRestaurants(buildRestaurants(next))
+      setCategoryLists(buildCategoryLists(next))
+      setEditingCategory(null)
+      resetResult()
+    },
+    [preset, resetResult],
+  )
+
   const handleEditCategory = useCallback((categoryId) => {
     setEditingCategory(categoryById(categoryId))
   }, [])
@@ -124,6 +141,9 @@ export default function App() {
   return (
     <div className={styles.app}>
       <header className={styles.masthead}>
+        <div className={styles.presetBar}>
+          <PresetToggle value={preset} onChange={handlePresetChange} disabled={isSpinning} />
+        </div>
         <h1 className={styles.title}>Where We Eatin</h1>
         <p className={styles.tagline}>Let the wheel settle the argument.</p>
       </header>
@@ -188,7 +208,7 @@ export default function App() {
       {openCategory && (
         <CategoryWheelDialog
           category={openCategory}
-          items={categoryLists[openCategory.id]}
+          items={categoryLists[openCategory.id] ?? []}
           onClose={handleCategoryClose}
           onSettled={setCategoryPick}
         />
@@ -197,7 +217,7 @@ export default function App() {
       {editingCategory && (
         <CategoryEditorDialog
           category={editingCategory}
-          items={categoryLists[editingCategory.id]}
+          items={categoryLists[editingCategory.id] ?? []}
           onChange={(next) => handleCategoryListChange(editingCategory.id, next)}
           onClose={handleCloseEditor}
         />
