@@ -1,0 +1,142 @@
+.dialog {
+  composes: shell from './dialog.module.css';
+  max-width: min(94vw, 420px);
+}
+
+.body {
+  composes: card from './dialog.module.css';
+  gap: 0.9rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.prompt {
+  composes: prompt from './dialog.module.css';
+}
+
+.question {
+  composes: question from './dialog.module.css';
+}
+
+.actions {
+  composes: actions from './dialog.module.css';
+}
+
+.primary {
+  composes: primary from './dialog.module.css';
+}
+
+/* The add form mirrors the one in the sidebar list. */
+.form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  background: rgb(0 0 0 / 0.25);
+  color: inherit;
+  font: inherit;
+}
+
+.input::placeholder { color: rgb(255 255 255 / 0.38); }
+
+.input:focus-visible {
+  outline: 2px solid #f0a64a;
+  outline-offset: 1px;
+}
+
+.add {
+  padding: 0.6rem 0.95rem;
+  border-radius: 10px;
+  border: none;
+  background: #f0a64a;
+  color: #3a1d06;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add:hover:not(:disabled) { background: #ffbc65; }
+
+.add:disabled,
+.input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 44vh;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.5rem 0.45rem 0.7rem;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.04);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove {
+  flex: none;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgb(209 59 64 / 0.55);
+  background: transparent;
+  color: rgb(255 170 170 / 0.9);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.remove:hover:not(:disabled) {
+  background: rgb(209 59 64 / 0.18);
+  color: #ffd9d9;
+}
+
+.remove:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.footnote {
+  margin: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgb(247 231 200 / 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

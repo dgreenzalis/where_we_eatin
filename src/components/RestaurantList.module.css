@@ -216,20 +216,35 @@
   white-space: nowrap;
 }
 
-/* Marks an entry that hands off to a wheel of its own rather than deciding. */
-.categoryTag {
+
+/* Opens the editor for that category's own wheel. */
+.cog {
   flex: none;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
-  border: 1px solid rgb(240 166 74 / 0.45);
-  color: rgb(255 215 154 / 0.9);
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(247 231 200 / 0.2);
+  background: transparent;
+  color: rgb(247 231 200 / 0.65);
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease, rotate 0.25s ease;
 }
 
-.itemVetoed .categoryTag {
+.cog:hover:not(:disabled) {
+  color: #ffd79a;
+  border-color: rgb(247 231 200 / 0.5);
+  rotate: 45deg;
+}
+
+.cog:disabled {
   opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cog { transition: none; }
+  .cog:hover:not(:disabled) { rotate: none; }
 }

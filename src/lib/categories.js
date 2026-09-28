@@ -18,17 +18,25 @@ export const PIZZA = {
   variant: 'pizza',
   options: [
     'Harvest Pizza',
-    "Mikey's Slice",
-    "Adriatico's",
-    'Yellow Brick',
-    "Massey's",
-    "Rubino's",
-    "Dewey's",
-    'Donatos',
+    "Grandad's",
+    "Pizza House",
+    "Mama Mimi's",
   ],
 }
 
 const CATEGORIES = [PIZZA]
+
+/** A wheel needs a real choice, so a category's list can't shrink past this. */
+export const MIN_CATEGORY_OPTIONS = 2
+
+/**
+ * The starting options for every category, by id. Names rather than
+ * restaurants: building those needs createRestaurant, and restaurants.js
+ * already imports this module.
+ */
+export function defaultCategoryLists() {
+  return Object.fromEntries(CATEGORIES.map((category) => [category.id, category.options]))
+}
 
 /**
  * Categories are matched on name, so a hand-typed "pizza" opens the second

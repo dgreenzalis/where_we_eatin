@@ -1,7 +1,6 @@
-import { useEffect, useId, useMemo, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { useReducedMotion } from '../hooks/useReducedMotion.js'
 import { useWheelSpin } from '../hooks/useWheelSpin.js'
-import { createRestaurant } from '../lib/restaurants.js'
 import Wheel from './Wheel.jsx'
 import styles from './CategoryWheelDialog.module.css'
 
@@ -18,13 +17,12 @@ const AUTO_SPIN_DELAY_MS = 550
  * round can be re-rolled.
  *
  * Mounted only while a category is in play, so every visit starts fresh.
+ * `items` is owned by the app, so an edited list survives closing the dialog.
  */
-export default function CategoryWheelDialog({ category, onClose, onSettled }) {
+export default function CategoryWheelDialog({ category, items, onClose, onSettled }) {
   const dialogRef = useRef(null)
   const bodyRef = useRef(null)
   const headingId = useId()
-
-  const items = useMemo(() => category.options.map(createRestaurant), [category])
 
   const prefersReducedMotion = useReducedMotion()
   const spinDuration = prefersReducedMotion ? REDUCED_SPIN_MS : SPIN_MS

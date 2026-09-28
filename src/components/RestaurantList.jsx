@@ -7,6 +7,7 @@ import {
   vetoLimit,
 } from '../lib/restaurants.js'
 import { sliceColor } from '../lib/wheel.js'
+import CogIcon from './CogIcon.jsx'
 import styles from './RestaurantList.module.css'
 
 const VETOED_SWATCH = '#5b5468'
@@ -15,7 +16,7 @@ const VETOED_SWATCH = '#5b5468'
  * The editable list of options. Fully controlled by the parent apart from the
  * new-entry draft, which is local because nothing else cares about it.
  */
-export default function RestaurantList({ items, onAdd, onToggleVeto, disabled }) {
+export default function RestaurantList({ items, onAdd, onToggleVeto, onEditCategory, disabled }) {
   const [draft, setDraft] = useState('')
 
   const isFull = items.length >= MAX_RESTAURANTS
@@ -103,9 +104,16 @@ export default function RestaurantList({ items, onAdd, onToggleVeto, disabled })
                 />
                 <span className={styles.name}>{item.name}</span>
                 {item.category && (
-                  <span className={styles.categoryTag} title="Opens a second wheel">
-                    2nd wheel
-                  </span>
+                  <button
+                    type="button"
+                    className={styles.cog}
+                    onClick={() => onEditCategory(item.category)}
+                    disabled={disabled}
+                    aria-label={`Edit the ${item.name.toLowerCase()} wheel`}
+                    title={`Opens a second wheel — edit its options`}
+                  >
+                    <CogIcon />
+                  </button>
                 )}
                 <button
                   type="button"

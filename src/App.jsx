@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState } from 'react'
+import CategoryEditorDialog from './components/CategoryEditorDialog.jsx'
 import CategoryWheelDialog from './components/CategoryWheelDialog.jsx'
 import RestaurantList from './components/RestaurantList.jsx'
 import Wheel from './components/Wheel.jsx'
 import { useReducedMotion } from './hooks/useReducedMotion.js'
 import { useWheelSpin } from './hooks/useWheelSpin.js'
-import { categoryById } from './lib/categories.js'
+import { categoryById, defaultCategoryLists } from './lib/categories.js'
 import { createRestaurant, MAX_RESTAURANTS, toggleVeto } from './lib/restaurants.js'
 import styles from './App.module.css'
 
@@ -26,6 +27,15 @@ const REDUCED_SPIN_MS = 400
 export default function App() {
   // Lazy initialiser: the starter list is only built on first render.
   const [restaurants, setRestaurants] = useState(() => STARTER_NAMES.map(createRestaurant))
+
+  // Each category's own options, owned here so edits outlive the dialog that
+  // made them and the wheel that reads them.
+  const [categoryLists, setCategoryLists] = useState(() =>
+    Object.fromEntries(
+      Object.entries(defaultCategoryLists()).map(([id, names]) => [id, names.map(createRestaurant)]),
+    ),
+  )
+  const [editingCategory, setEditingCategory] = useState(null)
 
   // Whatever the category wheel last landed on, plus whether the user has
   // dismissed it for this spin. Re-armed on every spin, so landing on the
@@ -88,6 +98,22 @@ export default function App() {
 
   const handleCategoryClose = useCallback(() => setDismissed(true), [])
 
+  const handleEditCategory = useCallback((categoryId) => {
+    setEditingCategory(categoryById(categoryId))
+  }, [])
+
+  const handleCloseEditor = useCallback(() => setEditingCategory(null), [])
+
+  // Editing the options invalidates whatever that wheel last landed on, so the
+  // round is reset the same way adding or vetoing a restaurant resets it.
+  const handleCategoryListChange = useCallback(
+    (categoryId, next) => {
+      setCategoryLists((previous) => ({ ...previous, [categoryId]: next }))
+      resetResult()
+    },
+    [resetResult],
+  )
+
   // A category's own pick supersedes the category itself as the answer.
   const announced = categoryPick ?? winner
   const via = categoryPick ? winnerCategory : null
@@ -108,6 +134,7 @@ export default function App() {
             items={restaurants}
             onAdd={handleAdd}
             onToggleVeto={handleToggleVeto}
+            onEditCategory={handleEditCategory}
             disabled={isSpinning}
           />
         </aside>
@@ -161,8 +188,18 @@ export default function App() {
       {openCategory && (
         <CategoryWheelDialog
           category={openCategory}
+          items={categoryLists[openCategory.id]}
           onClose={handleCategoryClose}
           onSettled={setCategoryPick}
+        />
+      )}
+
+      {editingCategory && (
+        <CategoryEditorDialog
+          category={editingCategory}
+          items={categoryLists[editingCategory.id]}
+          onChange={(next) => handleCategoryListChange(editingCategory.id, next)}
+          onClose={handleCloseEditor}
         />
       )}
     </div>
