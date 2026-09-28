@@ -9,6 +9,10 @@
  * "Pizza" in that list is what puts the pizza wheel within reach.
  *
  * `categories` seeds each category's own wheel, keyed by category id.
+ *
+ * `label` is what the picker shows; it falls back to the id. Worth setting to
+ * a real name once there are more than a handful — single letters stop being
+ * telling as soon as two people share an initial.
  */
 
 export const PRESETS = {

@@ -21,7 +21,8 @@ body {
 }
 
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible {
   outline: 2px solid #f0a64a;
   outline-offset: 2px;
 }

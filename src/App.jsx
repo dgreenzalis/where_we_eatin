@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import CategoryEditorDialog from './components/CategoryEditorDialog.jsx'
 import CategoryWheelDialog from './components/CategoryWheelDialog.jsx'
-import PresetToggle from './components/PresetToggle.jsx'
+import PresetPicker from './components/PresetPicker.jsx'
 import RestaurantList from './components/RestaurantList.jsx'
 import Wheel from './components/Wheel.jsx'
 import { useReducedMotion } from './hooks/useReducedMotion.js'
@@ -142,7 +142,7 @@ export default function App() {
     <div className={styles.app}>
       <header className={styles.masthead}>
         <div className={styles.presetBar}>
-          <PresetToggle value={preset} onChange={handlePresetChange} disabled={isSpinning} />
+          <PresetPicker value={preset} onChange={handlePresetChange} disabled={isSpinning} />
         </div>
         <h1 className={styles.title}>Where We Eatin</h1>
         <p className={styles.tagline}>Let the wheel settle the argument.</p>
