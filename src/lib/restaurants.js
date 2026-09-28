@@ -1,3 +1,5 @@
+import { categoryForName } from './categories.js'
+
 export const MAX_RESTAURANTS = 20
 export const MAX_NAME_LENGTH = 32
 
@@ -14,9 +16,18 @@ function createId() {
 /**
  * Restaurants carry a stable id so React keys survive reordering, and so two
  * spots with the same name stay distinct.
+ *
+ * `category` is set when the name is a kind of food rather than a place, which
+ * is what tells the app to open a second wheel instead of declaring a winner.
  */
 export function createRestaurant(name) {
-  return { id: createId(), name: name.trim().slice(0, MAX_NAME_LENGTH), vetoed: false }
+  const trimmed = name.trim().slice(0, MAX_NAME_LENGTH)
+  return {
+    id: createId(),
+    name: trimmed,
+    vetoed: false,
+    category: categoryForName(trimmed)?.id ?? null,
+  }
 }
 
 /**

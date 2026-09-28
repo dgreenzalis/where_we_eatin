@@ -115,3 +115,26 @@
   .spinButton { transition: none; }
   .resultName { animation: none; }
 }
+
+/* Credits the second wheel when a category decided the night. */
+.resultVia {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: rgb(247 231 200 / 0.45);
+}
+
+.reopen {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgb(247 231 200 / 0.28);
+  background: transparent;
+  color: rgb(247 231 200 / 0.8);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.reopen:hover {
+  border-color: rgb(247 231 200 / 0.5);
+  color: #f7e7c8;
+}

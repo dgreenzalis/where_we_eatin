@@ -74,3 +74,85 @@ export function nextRotation(currentRotation, index, count, { turns = 5, random 
 
   return currentRotation + turns * FULL_CIRCLE + delta
 }
+
+/* -------------------------------------------------------------------------
+ * Pizza face
+ *
+ * Toppings are scattered, but they must not move between renders — the wheel
+ * re-renders on every rotation change, and pepperoni that jumped around mid
+ * spin would look broken. So positions come from a seeded generator keyed on
+ * the slice, never from Math.random.
+ * ---------------------------------------------------------------------- */
+
+/** Small deterministic PRNG (an LCG); same seed always gives the same run. */
+function seededRandom(seed) {
+  let state = (Math.imul(seed, 2654435761) >>> 0) || 1
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0
+    return state / 4294967296
+  }
+}
+
+/** The cheese stops short of the rim so a crust ring shows around it. */
+export const CRUST_RATIO = 0.86
+
+/**
+ * Where pepperoni sit inside one slice, as {angle, radius} fractions.
+ *
+ * The first two flank the label rather than sitting under it; the third tucks
+ * in near the hub where the label has already ended.
+ */
+const PEPPERONI_SLOTS = [
+  { angle: 0.23, radius: 0.74 },
+  { angle: 0.77, radius: 0.58 },
+  { angle: 0.5, radius: 0.31 },
+]
+
+/** Thin slices get fewer toppings, or they spill over the cut lines. */
+function pepperoniCount(count) {
+  if (count <= 8) return 3
+  if (count <= 14) return 2
+  return 1
+}
+
+/** Pepperoni shrink with the slices for the same reason. */
+export function pepperoniRadius(count, radius) {
+  const scale = count <= 8 ? 0.075 : count <= 14 ? 0.055 : 0.042
+  return radius * scale
+}
+
+/**
+ * Pepperoni centres for one slice, in SVG coordinates.
+ *
+ * @returns {Array<{x: number, y: number}>}
+ */
+export function pepperoniForSlice(index, count, cx, cy, radius) {
+  const segment = segmentAngle(count)
+  const cheeseRadius = radius * CRUST_RATIO
+  const random = seededRandom(index * 97 + count * 31 + 7)
+
+  return PEPPERONI_SLOTS.slice(0, pepperoniCount(count)).map((slot) => {
+    // Jitter keeps the pie from looking stamped out, without letting a
+    // topping drift into a neighbouring slice.
+    const angleFraction = slot.angle + (random() - 0.5) * 0.08
+    const radiusFraction = slot.radius + (random() - 0.5) * 0.1
+    const angle = (index + angleFraction) * segment
+
+    return polarToCartesian(cx, cy, cheeseRadius * radiusFraction, angle)
+  })
+}
+
+/** Charred bubbles dotted around the crust; fixed, so they never move. */
+export function crustSpots(cx, cy, radius, howMany = 11) {
+  const random = seededRandom(20260928)
+  const cheeseRadius = radius * CRUST_RATIO
+  const bandCentre = (radius + cheeseRadius) / 2
+  const bandWidth = (radius - cheeseRadius) * 0.5
+
+  return Array.from({ length: howMany }, (_, index) => {
+    const angle = (index / howMany) * FULL_CIRCLE + (random() - 0.5) * 18
+    const distance = bandCentre + (random() - 0.5) * bandWidth
+    const point = polarToCartesian(cx, cy, distance, angle)
+    return { ...point, r: radius * (0.016 + random() * 0.016) }
+  })
+}

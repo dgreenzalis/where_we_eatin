@@ -1,6 +1,8 @@
 .stage {
   position: relative;
-  width: min(72vw, 460px);
+  /* Overridable so the dialog can show a smaller pie without reaching across
+     module boundaries to restyle this class. */
+  width: var(--wheel-size, min(72vw, 460px));
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -74,4 +76,41 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hubSpinning { animation: none; }
+}
+
+/* --- Pizza variant ------------------------------------------------------ */
+
+/* Cut lines between slices, as if the pie came out of the box sliced. */
+.cut {
+  stroke: rgb(176 108 40 / 0.55);
+  stroke-width: 1.5;
+}
+
+.pepperoni {
+  fill: #b8322a;
+  stroke: rgb(122 30 22 / 0.65);
+  stroke-width: 1.5;
+}
+
+/* Charred bubbles on the crust. */
+.char {
+  fill: rgb(92 46 12 / 0.42);
+}
+
+/* Dark text with a cheese-coloured halo, so labels survive crossing a slice
+   edge or clipping a pepperoni. */
+.labelPizza {
+  fill: #4a2408;
+  stroke: rgb(255 240 200 / 0.85);
+  stroke-width: 3.5px;
+}
+
+.pointerPizza {
+  border-top-color: #a8271f;
+}
+
+.hubPizza {
+  background: radial-gradient(circle at 35% 30%, #f6d79a, #d99845);
+  color: #5c2c0a;
+  font-size: clamp(0.95rem, 2.6vw, 1.4rem);
 }

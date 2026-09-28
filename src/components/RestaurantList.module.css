@@ -215,3 +215,21 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Marks an entry that hands off to a wheel of its own rather than deciding. */
+.categoryTag {
+  flex: none;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid rgb(240 166 74 / 0.45);
+  color: rgb(255 215 154 / 0.9);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.itemVetoed .categoryTag {
+  opacity: 0.4;
+}

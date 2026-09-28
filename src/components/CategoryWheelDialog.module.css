@@ -1,0 +1,151 @@
+.dialog {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: min(94vw, 520px);
+  max-height: 92dvh;
+  overflow: visible;
+  color: inherit;
+}
+
+.dialog::backdrop {
+  background: rgb(12 6 20 / 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.body {
+  /* The pie is a little smaller in here than the wheel on the page behind. */
+  --wheel-size: min(62vw, 340px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border-radius: 20px;
+  border: 1px solid rgb(247 231 200 / 0.14);
+  background: linear-gradient(180deg, #2c1b3d, #1b1028);
+  box-shadow: 0 30px 70px rgb(0 0 0 / 0.6);
+  animation: rise 0.32s cubic-bezier(0.2, 1.2, 0.4, 1);
+}
+
+/* Focused programmatically on open, so it takes no visible ring of its own. */
+.body:focus {
+  outline: none;
+}
+
+.header {
+  text-align: center;
+}
+
+.prompt {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgb(247 231 200 / 0.6);
+}
+
+.question {
+  margin: 0.25rem 0 0;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(120deg, #ffd79a, #f0a64a 55%, #e2703a);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.result {
+  margin: 0;
+  min-height: 3.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  text-align: center;
+}
+
+.resultLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgb(247 231 200 / 0.6);
+}
+
+.resultName {
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 800;
+  color: #ffd79a;
+  animation: pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.resultHint {
+  color: rgb(255 255 255 / 0.45);
+  font-size: 0.95rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.primary,
+.secondary {
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.primary {
+  border: none;
+  background: linear-gradient(180deg, #ffbc65, #e2703a);
+  color: #35180a;
+  box-shadow: 0 10px 22px rgb(226 112 58 / 0.35);
+}
+
+.secondary {
+  border: 1px solid rgb(247 231 200 / 0.3);
+  background: transparent;
+  color: #f4ece0;
+}
+
+.primary:hover:not(:disabled),
+.secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.primary:active:not(:disabled),
+.secondary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@keyframes rise {
+  from { opacity: 0; translate: 0 14px; scale: 0.96; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+@keyframes pop {
+  from { opacity: 0; scale: 0.7; }
+  to { opacity: 1; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body { animation: none; }
+  .resultName { animation: none; }
+  .primary,
+  .secondary { transition: none; }
+}

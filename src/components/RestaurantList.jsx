@@ -102,6 +102,11 @@ export default function RestaurantList({ items, onAdd, onToggleVeto, disabled })
                   aria-hidden="true"
                 />
                 <span className={styles.name}>{item.name}</span>
+                {item.category && (
+                  <span className={styles.categoryTag} title="Opens a second wheel">
+                    2nd wheel
+                  </span>
+                )}
                 <button
                   type="button"
                   className={`${styles.veto} ${item.vetoed ? styles.vetoActive : ''}`}
