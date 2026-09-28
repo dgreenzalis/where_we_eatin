@@ -1,0 +1,217 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.25);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.heading {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #f7e7c8;
+}
+
+.count {
+  font-size: 0.8rem;
+  color: rgb(247 231 200 / 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  background: rgb(0 0 0 / 0.25);
+  color: inherit;
+  font: inherit;
+}
+
+.input::placeholder { color: rgb(255 255 255 / 0.38); }
+
+.input:focus-visible {
+  outline: 2px solid #f0a64a;
+  outline-offset: 1px;
+}
+
+.add {
+  padding: 0.6rem 0.95rem;
+  border-radius: 10px;
+  border: none;
+  background: #f0a64a;
+  color: #3a1d06;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add:hover:not(:disabled) { background: #ffbc65; }
+
+.add:disabled,
+.input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.04);
+}
+
+.swatch {
+  flex: none;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 4px;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.veto {
+  flex: none;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgb(209 59 64 / 0.55);
+  background: transparent;
+  color: #f0a0a3;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.veto:hover:not(:disabled) {
+  background: rgb(209 59 64 / 0.25);
+  color: #ffd2d3;
+}
+
+/* Pressed state — the toggle is on, so the row is out of the running. */
+.vetoActive {
+  background: #d13b40;
+  border-color: #d13b40;
+  color: #fff;
+}
+
+.vetoActive:hover:not(:disabled) {
+  background: #b83036;
+  color: #fff;
+}
+
+.veto:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* An active veto stays clickable so it can always be undone. */
+.vetoActive:disabled {
+  opacity: 0.7;
+}
+
+.itemVetoed {
+  background: rgb(255 255 255 / 0.02);
+}
+
+.itemVetoed .name {
+  text-decoration: line-through;
+  text-decoration-color: rgb(255 255 255 / 0.5);
+  color: rgb(255 255 255 / 0.38);
+}
+
+.itemVetoed .swatch {
+  opacity: 0.5;
+}
+
+.vetoBar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  background: rgb(209 59 64 / 0.12);
+  border: 1px solid rgb(209 59 64 / 0.22);
+}
+
+.vetoLabel {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(247 231 200 / 0.65);
+}
+
+.vetoCount {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #f7e7c8;
+}
+
+.vetoCountMaxed {
+  color: #ff9ea1;
+}
+
+.vetoHint {
+  margin: -0.35rem 0 0;
+  font-size: 0.82rem;
+  color: rgb(255 255 255 / 0.45);
+}
+
+.empty {
+  margin: 0;
+  padding: 0.5rem 0 0.25rem;
+  color: rgb(255 255 255 / 0.5);
+  font-size: 0.9rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  color: #f4ece0;
+  background:
+    radial-gradient(1000px 600px at 50% -10%, #4a2338, transparent 65%),
+    linear-gradient(180deg, #241733, #150d20 60%, #100a18);
+  background-attachment: fixed;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #f0a64a;
+  outline-offset: 2px;
+}

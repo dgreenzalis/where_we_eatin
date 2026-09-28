@@ -1,0 +1,117 @@
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) 3rem;
+}
+
+.masthead {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(120deg, #ffd79a, #f0a64a 55%, #e2703a);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  margin: 0.4rem 0 0;
+  color: rgb(247 231 200 / 0.6);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) 1fr;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinButton {
+  padding: 0.95rem 2.4rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffbc65, #e2703a);
+  color: #35180a;
+  font: inherit;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgb(226 112 58 / 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.spinButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgb(226 112 58 / 0.45);
+}
+
+.spinButton:active:not(:disabled) { transform: translateY(1px); }
+
+.spinButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.result {
+  margin: 0;
+  min-height: 3.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  text-align: center;
+}
+
+.resultLabel {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgb(247 231 200 / 0.6);
+}
+
+.resultName {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  color: #ffd79a;
+  animation: pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.resultHint {
+  color: rgb(255 255 255 / 0.45);
+  font-size: 0.95rem;
+}
+
+@keyframes pop {
+  from { opacity: 0; scale: 0.7; }
+  to { opacity: 1; scale: 1; }
+}
+
+@media (max-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Wheel leads on narrow screens; the list follows. */
+  .sidebar { order: 2; }
+  .stage { order: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinButton { transition: none; }
+  .resultName { animation: none; }
+}
